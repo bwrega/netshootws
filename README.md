@@ -10,7 +10,7 @@ The mentioned webservice exposes two endpoints: `/test` and `/`.
 
 `/` fetches `/test` endpoint from other nodes - and displays if it was successful
 
-Keep in mind that you can always make a `docker exec -it CONTAINER_ID /bin/bash -l` into running container and use any of tools provided by [nicolaka/netshoot](https://github.com/nicolaka/netshoot).
+Keep in mind that you can always make a `docker exec -it CONTAINER_ID /bin/bash -l` into a running container and use any of tools provided by [nicolaka/netshoot](https://github.com/nicolaka/netshoot).
 
 ## Simple usage
 ```
