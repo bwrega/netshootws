@@ -51,7 +51,7 @@ def testOther(host):
         return {"isSuccess": False, 'statusCode': statusCode, "errorMessage": str(err)}
 
 def formatErrorDetails(res):
-    return "response code: "+str(res["statusCode"])+'<br>\n'+"error message: "+res["errorMessage"]+"<br>\n"
+    return "response code: "+str(res["statusCode"])+'<br>\n'+"error message: "+res["errorMessage"]+"<br><br>\n"
 
 def othersInfo():
     myName = sys.MY_NAME

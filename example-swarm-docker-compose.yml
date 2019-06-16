@@ -1,0 +1,97 @@
+version: "3.7"
+
+services:
+
+  troublenode1:
+    image: "wregab/netshootws:0.7"
+    networks:
+    - proxy
+    command:
+    - "--my-name=troublenode1"
+    - "--others-names=troublenode1:8081;troublenode2:8082;troublenode3:8083;troublenodetst:8084"
+    - "--listen-on=0.0.0.0:8081"
+    ports:
+    - 28081:8081
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+        - node.hostname == swarm-non-prd-1
+      update_config:
+        parallelism: 1
+        delay: 10s
+      labels:
+      - "traefik.port=8081"
+      - "traefik.docker.network=proxy"
+      - "traefik.frontend.rule=PathPrefixStrip:/troubleshooting/node1"
+  troublenode2:
+    image: "wregab/netshootws:0.7"
+    networks:
+    - proxy
+    command:
+    - "--my-name=troublenode2"
+    - "--others-names=troublenode1:8081;troublenode2:8082;troublenode3:8083;troublenodetst:8084"
+    - "--listen-on=0.0.0.0:8082"
+    ports:
+    - 28082:8082
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+        - node.hostname == swarm-non-prd-2
+      update_config:
+        parallelism: 1
+        delay: 10s
+      labels:
+      - "traefik.port=8082"
+      - "traefik.docker.network=proxy"
+      - "traefik.frontend.rule=PathPrefixStrip:/troubleshooting/node2"
+  troublenode3:
+    image: "wregab/netshootws:0.7"
+    networks:
+    - proxy
+    command:
+    - "--my-name=troublenode3"
+    - "--others-names=troublenode1:8081;troublenode2:8082;troublenode3:8083;troublenodetst:8084"
+    - "--listen-on=0.0.0.0:8083"
+    ports:
+    - 28083:8083
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+        - node.hostname == swarm-non-prd-3
+      update_config:
+        parallelism: 1
+        delay: 10s
+      labels:
+      - "traefik.port=8083"
+      - "traefik.docker.network=proxy"
+      - "traefik.frontend.rule=PathPrefixStrip:/troubleshooting/node3"
+  troublenodetst:
+    image: "wregab/netshootws:0.7"
+    networks:
+    - proxy
+    command:
+    - "--my-name=troublenodetst"
+    - "--others-names=troublenode1:8081;troublenode2:8082;troublenode3:8083;troublenodetst:8084"
+    - "--listen-on=0.0.0.0:8084"
+    ports:
+    - 28084:8084
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+        - node.hostname == jenkins-support
+      update_config:
+        parallelism: 1
+        delay: 10s
+      labels:
+      - "traefik.port=8084"
+      - "traefik.docker.network=proxy"
+      - "traefik.frontend.rule=PathPrefixStrip:/troubleshooting/nodetst"
+
+networks:
+  proxy:
+    external: true
+
