@@ -11,11 +11,11 @@ urls = (
 )
 
 def printUsage():
-    sys.stderr.write("Usage: "+sys.argv[0]+' --my-name=node1 --others-names="node2:8080;node3"\n')
+    sys.stderr.write("Usage: "+sys.argv[0]+' --my-name=node1 --others-names="node2:8080;node3" [--listen-on=0.0.0.0:8081]\n')
 
 def parseArgs():
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "", ["my-name=", "others-names="])
+        opts, args = getopt.getopt(sys.argv[1:], "", ["my-name=", "others-names=", "listen-on="])
     except getopt.GetoptError as err:
         sys.stderr.write(str(err))
         sys.stderr.write("\n")
@@ -26,6 +26,8 @@ def parseArgs():
             sys.MY_NAME=arg
         elif opt == "--others-names":
             sys.OTHERS_NAMES = arg.split(";")
+        elif opt == "--listen-on":
+            sys.LISTEN_ON = arg
 
     if sys.MY_NAME == "" or len(sys.OTHERS_NAMES) == 0:
         printUsage()
@@ -74,7 +76,8 @@ class ShowOthers:
 if __name__ == "__main__": 
     sys.MY_NAME=""
     sys.OTHERS_NAMES=[]
+    sys.LISTEN_ON="0.0.0.0:8080"
     parseArgs()
-    sys.argv=[sys.argv[0]]
+    sys.argv=[sys.argv[0], sys.LISTEN_ON]
     app = web.application(urls, globals())
     app.run()
